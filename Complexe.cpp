@@ -85,6 +85,69 @@ Complexe Complexe::Multiplication(const Complexe &c) const {
     return tmp;
 }
 
+// Definition de la methode Soustraction
+Complexe Complexe::Soustraction(const Complexe &c) const {
+    Complexe tmp;
+    tmp.re = re - c.re;
+    tmp.im = im - c.im;
+    return tmp;
+}
+
+// Definition de la methode Division
+Complexe Complexe::Division(const Complexe &c) const {
+    Complexe tmp;
+    tmp.re = (re*c.re + im*c.im)/(c.re*c.re + c.im*c.im);
+    tmp.im = (im*c.re - re*c.im)/(c.re*c.re + c.im*c.im);
+    return tmp;
+}
+
+// Definition de la methode argument
+float Complexe::argument() const {
+    if(re == 0) {
+        if(im == 0){
+            std::cout << "Il n'y a pas d'argument pour 0 + 0j" << std::endl; // On ne peut pas calculer l'argument de 0 + 0j
+            return 0;
+        }else {
+            if (im > 0) {
+                return M_PI / 2;
+            } else {
+                return -M_PI / 2;
+            }
+        }
+    }else {
+        if(re > 0) {
+            return atan(im/re);
+        }else {
+            if(im >= 0) {
+                return atan(im/re) + M_PI;
+            }else {
+                return atan(im/re) - M_PI;
+            }
+        }
+    }
+}
+
+// Definition de la methode conjuge
+Complexe Complexe::conjuge() const {
+    Complexe tmp;
+    tmp.re = re;
+    tmp.im = -im;
+    return tmp;
+}
+
+// Definition de la methode oppose
+Complexe Complexe::oppose() const {
+    Complexe tmp;
+    tmp.re = -re;
+    tmp.im = -im;
+    return tmp;
+}
+
+// Definition de la methode egal
+bool Complexe::egal(const Complexe &c) const {
+    return (re == c.re && im == c.im);
+}
+
 // Definition des operateurs internes a la classe
 /*Complexe Complexe::operator+(const Complexe &c) const {
     Complexe tmp;
@@ -115,4 +178,13 @@ Complexe operator*(const Complexe &c1, const Complexe &c2) {
 std::ostream& operator<<(std::ostream& flux, const Complexe &c) {
     c.affiche(flux);
     return flux;
+}
+Complexe operator-(const Complexe &c1, const Complexe &c2) {
+    return c1.Soustraction(c2);
+}
+Complexe operator/(const Complexe &c1, const Complexe &c2) {
+    return c1.Division(c2);
+}
+bool operator==(const Complexe &c1, const Complexe &c2) {
+    return c1.egal(c2);
 }
